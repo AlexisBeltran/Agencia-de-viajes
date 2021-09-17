@@ -1,0 +1,27 @@
+extends ./layout/index
+
+block Contenido 
+    main.container.mt-5
+        h1.text-center.mt-5 #{pagina}        
+        .row
+            .col-md-12
+                h2.d-block.w-100.text-center Agrega tu asunto
+                if(Errores)
+                    each error in Errores
+                        .alert.col.alert-danger.text-center=error.mensaje
+            .row.justify-content-center.col
+                .col-md-8
+                    form(action="/contacto" method="POST")
+                        .form-group
+                            label(for="nombre") Nombre: 
+                            input#nombre(type="text", name="nombre", placeholder="tu nombre" class="form-control", value=nombre) 
+                        .form-group
+                            label(for="correo") Correo electronico: 
+                            input#nombre(type="email", name="correo", placeholder="tucorreo@gmail.com" class="form-control") 
+                        .form-group
+                            label(for="asunto") Asunto del mensaje:
+                            input#correo(type="text", name="asunto", placeholder="Tu asunto" class="form-control")
+                        .form-group
+                            label(for="mensaje") Mensaje 
+                            textarea#mensaje(type="text", name="mensaje", placeholder="Tu mensaje" class="form-control", rows=3) 
+                        input.btn.btn-success.btn-block(type="submit")
