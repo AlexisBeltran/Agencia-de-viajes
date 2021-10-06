@@ -1,0 +1,35 @@
+extends ./layout/index
+
+block Contenido
+    .container
+        h2.text-center.mt-5=pagina
+        .row.justify-content-center
+            .col-12
+                button.background.mt-2.mb-4.btn.btn-hover.px-5 Nuevo Viaje
+                .justify-content-center.row.table-responsive
+                    table.table
+                        thead.background
+                            tr.py.text-center
+                                th ID
+                                th Titulo 
+                                th Precio  
+                                th Fecha Ida
+                                th Fecha Vuelta
+                                th Descripción
+                                th Acciones
+                        tbody
+                            each viaje in Viajes
+                                tr 
+                                    td=viaje.id
+                                    td=viaje.titulo
+                                    td=viaje.precio
+                                    td=viaje.fecha_ida
+                                    td=viaje.fecha_vuelta
+                                    td=viaje.descripcion.substr(0,200)
+                                    td
+                                        .col-12.text-center
+                                            input(type="button" value="Actualizar" class="mr-2 btn background-btn mb-1")  
+                                            input(type="button" value="Eliminar" class="btn background-btn") 
+        .paginador
+            p 1
+            p 2
