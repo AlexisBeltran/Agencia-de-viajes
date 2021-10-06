@@ -1,6 +1,5 @@
 import {Viaje} from '../models/Viaje.js'
 import { Testimoniales } from '../models/Testimoniales.js';
-import nodemailer from 'nodemailer';
 
 const paginaInicio = async (req, res) => {
     let PromiseDB = []
@@ -63,12 +62,11 @@ const paginaContacto = (req, res) => {
     })
 }
 
-
 export {
     paginaInicio,
     paginaNosotros, 
     paginaViajes, 
     paginaTestimoniales, 
     paginaDetalleViaje, 
-    paginaContacto
+    paginaContacto,
 }
