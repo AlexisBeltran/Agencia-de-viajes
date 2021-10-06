@@ -166,3 +166,51 @@ i {
     font-weight: bold;
     margin-top: 1rem;
 }
+.background{
+    background-color: #15B9D5;
+}
+.py th{
+    padding: .5rem;
+    color: white;
+    text-transform: uppercase;
+}
+.btn-hover{
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Staatliches', cursive;
+    font-size: 1rem;
+}
+.btn-hover:hover{
+    background-color: #1e92a7;
+}
+.background-btn{
+    color: white;
+    font-family: 'Staatliches', cursive;
+}
+.background-btn:hover{
+    color: white;
+}
+.background-btn:nth-child(1){
+    background-color: #15B9D5;
+}
+.background-btn:nth-child(1):hover{
+    background-color: #1c7180;
+}
+.background-btn:nth-child(2){
+    background-color: rgb(185, 45, 45);
+}
+.background-btn:nth-child(2):hover{
+    background-color: rgb(126, 30, 30);
+}
+.paginador{
+    display: flex;
+    justify-content: center;
+}
+.paginador p{
+    background-color: #15B9D5;
+    margin-right: 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
