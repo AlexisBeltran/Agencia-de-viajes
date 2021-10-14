@@ -1,0 +1,24 @@
+extends ./layout/index
+
+block Contenido     
+    h2.text-center.mt-5=pagina
+    .row.justify-content-center.col
+        .col-md-8
+            a(href="/login" class="fuente") Volver 
+            if(Errores)
+                each error in Errores 
+                    .alert.col.alert-danger.text-center=error.mensaje
+            form(method="POST")
+                .form-group
+                    label(for="nombre") Nombre Completo: 
+                    input#nombre(type="text", name="nombre", placeholder="Tu nombre" class="form-control" value=nombre)
+                .form-group
+                    label(for="correo") Correo Electronico: 
+                    input#correo(type="email", name="correo", placeholder="tu correo" class="form-control" value=correo) 
+                .form-group
+                    label(for="password") Contraseña: 
+                    input#password(type="password", name="password", placeholder="tu contraseña" class="form-control", value=password)  
+                .form-group
+                    label(for="confircontra") Confirmar contraseña: 
+                    input#confircontra(type="password", name="confircontra", placeholder="Confirmar contraseña" class="form-control" value=confircontra)
+                input.btn.btn-success.btn-block.mb-2(type="submit" value="Entrar")

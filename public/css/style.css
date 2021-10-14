@@ -214,3 +214,10 @@ i {
     cursor: pointer;
     color: white;
 }
+.fuente{
+    display: flex;
+    font-family: 'Staatliches', cursive;
+    justify-content: center;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
