@@ -51,8 +51,11 @@ const guardarRegistro = async(req, res) => {
     if(correo.trim() === ''){
         Errores = [...Errores , {mensaje: 'El correo es obligatorio'}];
     }
-    if(password.trim() === ''|| confircontra === ''){
+    if(password.trim() === ''|| confircontra.trim() === ''){
         Errores = [...Errores , {mensaje: 'La contraseña es obligatorio'}];
+    }
+    if(password.trim() !== confircontra.trim()){
+        Errores = [...Errores, {mensaje: 'Las contraseñas no coiciden'}];
     }
 
     if(Errores.length > 0) {
@@ -65,13 +68,15 @@ const guardarRegistro = async(req, res) => {
         });
     }else{
         try{
-            const Fecha = new Date();
-            let passwordHash = await bcryptjs.hash(password, 8);
+            const Hoy = new Date();
+            const Fecha = FormatoFecha(Hoy);
+            console.log(Fecha);
+            let passwordHash = await bcryptjs.hash(password, 5);
             await usuario.create({
                 nombre_usuario : nombre,
                 correo_usuario : correo,
                 contraseña_usuario : passwordHash,
-                fechaCreacion_usuario : Fecha.getUTCFullYear(),
+                fechaCreacion_usuario : Fecha
             });
             res.redirect('/login');
         }catch(Error){
@@ -80,6 +85,20 @@ const guardarRegistro = async(req, res) => {
     }
 }
 
+
+
+/* **FUNCIONES** */
+
+function FormatoFecha(fecha){
+    const formatoMap = {
+        yyyy: fecha.getFullYear(),
+        mm: fecha.getMonth() + 1,
+        dd: fecha.getDate()
+    }
+
+    const {yyyy, mm, dd} = formatoMap;
+    return `${yyyy}-${mm}-${dd}`;
+}
 export{
     paginaAdmin, 
     paginaLogin,
