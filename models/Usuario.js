@@ -9,12 +9,13 @@ export const usuario = db.define('usuario', {
         primaryKey: true
     },
     nombre_usuario: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
     },
     correo_usuario: {
         type: Sequelize.STRING
     },
-    contraseña_usuario: {
+    contrasenia_usuario: {
         type: Sequelize.STRING
     },
     fechaCreacion_usuario: {

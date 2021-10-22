@@ -1,17 +1,15 @@
 import {Viaje} from '../models/Viaje.js'
-import bcryptjs from 'bcryptjs';
 import {usuario} from '../models/Usuario.js';
+import {compare, encrypt} from './helpers/handleBcrypt.js';
+import {FormatoFecha} from './helpers/functions.js';
 
 const paginaAdmin = async (req, res) => {
     const Viajes = await Viaje.findAll();
-    try{
-        res.render('login', {
-            pagina: 'Información',
-            Viajes
-        });
-    }catch(Error){
-        console.log(Error);
-    }
+    res.render('admin', {
+        pagina: 'Información',
+        Viajes,
+        Login: true
+    })
 }
 
 const paginaLogin = async (req, res) => {
@@ -35,6 +33,17 @@ const guardarLogin = async(req, res) => {
     if(password.trim() === ''){
         Errores = [...Errores, {mensaje: 'La contraseña es obligatoria'}];
     }
+
+    //Validation users
+    const User = await usuario.findOne({where: {correo_usuario: correo}});
+    const CheckPassword = await compare(password, User.contrasenia_usuario);
+    if(CheckPassword){  
+        res.redirect('admin');
+    }
+    else{
+        Errores = [...Errores, {mensaje: 'Correo y/o contraseña no coinciden'}];
+    }
+
     if(Errores.length > 0){
         res.render('login', {
             Errores
@@ -70,12 +79,11 @@ const guardarRegistro = async(req, res) => {
         try{
             const Hoy = new Date();
             const Fecha = FormatoFecha(Hoy);
-            console.log(Fecha);
-            let passwordHash = await bcryptjs.hash(password, 5);
+            let passwordHash = await encrypt(password);
             await usuario.create({
                 nombre_usuario : nombre,
                 correo_usuario : correo,
-                contraseña_usuario : passwordHash,
+                contrasenia_usuario : passwordHash,
                 fechaCreacion_usuario : Fecha
             });
             res.redirect('/login');
@@ -85,22 +93,8 @@ const guardarRegistro = async(req, res) => {
     }
 }
 
-
-
-/* **FUNCIONES** */
-
-function FormatoFecha(fecha){
-    const formatoMap = {
-        yyyy: fecha.getFullYear(),
-        mm: fecha.getMonth() + 1,
-        dd: fecha.getDate()
-    }
-
-    const {yyyy, mm, dd} = formatoMap;
-    return `${yyyy}-${mm}-${dd}`;
-}
 export{
-    paginaAdmin, 
+    paginaAdmin,
     paginaLogin,
     paginaRegistro,
     guardarLogin,

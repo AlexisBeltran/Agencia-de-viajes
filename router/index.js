@@ -1,8 +1,10 @@
 import express from "express";
+
 import {paginaInicio, paginaNosotros, paginaViajes, paginaTestimoniales, paginaDetalleViaje, paginaContacto} from '../controllers/paginaControllers.js'
 import { guardarTestimoniales } from "../controllers/testimonialControllers.js";
 import { paginaDetalleContacto } from "../controllers/contactoControllers.js";
 import {paginaAdmin, paginaLogin, guardarLogin, paginaRegistro, guardarRegistro} from '../controllers/adminControllers.js';
+
 const router = express.Router();
 
 /* ***ZONA PUBLICA */
