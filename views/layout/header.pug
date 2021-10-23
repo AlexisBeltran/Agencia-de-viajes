@@ -1,3 +1,4 @@
+
 header 
     .navegacion
         .container     
@@ -10,5 +11,8 @@ header
                         a.nav-link(href="/nosotros") Nosotros
                         a.nav-link(href="/viajes") Viajes
                         a.nav-link(href="/testimoniales") Testimoniales
-                        a.nav-link(href="/login") #{(Login ? 'Cerrar Sesión' : 'Iniciar Sesión')}
+                        if(Login)
+                            a.nav-link(href="/logout") Cerrar Sesión 
+                        else 
+                            a.nav-link(href="/login") Iniciar Sesión
                         

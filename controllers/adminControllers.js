@@ -1,7 +1,7 @@
 import {Viaje} from '../models/Viaje.js'
 import {usuario} from '../models/Usuario.js';
 import {compare, encrypt} from './helpers/handleBcrypt.js';
-import {FormatoFecha} from './helpers/functions.js';
+import {FormatoFecha, Autenticar} from './helpers/functions.js';
 
 const paginaAdmin = async (req, res) => {
     const Viajes = await Viaje.findAll();
@@ -35,13 +35,29 @@ const guardarLogin = async(req, res) => {
     }
 
     //Validation users
-    const User = await usuario.findOne({where: {correo_usuario: correo}});
-    const CheckPassword = await compare(password, User.contrasenia_usuario);
-    if(CheckPassword){  
-        res.redirect('admin');
-    }
-    else{
-        Errores = [...Errores, {mensaje: 'Correo y/o contraseña no coinciden'}];
+    try{
+        const User = await usuario.findOne({where: {correo_usuario: correo}});
+        if(!User){
+            Errores = [...Errores, {mensaje: 'Correo no registrado'}];
+        }else{
+            const CheckPassword = await compare(password, User.contrasenia_usuario);
+            if(CheckPassword){  
+                //Autenticar el usuario
+                req.session.correo = correo;
+                req.session.admin = true;
+                const Auten = Autenticar(req.session, correo);
+                if(Auten){
+                    res.redirect('/admin');
+                    return;
+                }
+                res.sendStatus(401);
+            }
+            else{
+                Errores = [...Errores, {mensaje: 'Contraseña Incorrecta'}];
+            }
+        }
+    }catch(Error){
+        console.log(Error);
     }
 
     if(Errores.length > 0){
@@ -92,11 +108,15 @@ const guardarRegistro = async(req, res) => {
         }
     }
 }
-
+const logout = async (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+}
 export{
     paginaAdmin,
     paginaLogin,
     paginaRegistro,
     guardarLogin,
-    guardarRegistro
+    guardarRegistro, 
+    logout
 }

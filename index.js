@@ -22,7 +22,6 @@ app.use((req, res, next) => {
     res.locals.AñoActual = Anio.getFullYear();
     return next();
 });
-
 //Agregar body parser para leer los datos del formulario
 app.use(express.urlencoded({extended: true}));
 
@@ -31,6 +30,8 @@ app.use(express.static('public'));
 
 app.use('/', router);
 
+
 app.listen(port, host, ()=>{
     console.log(`El servidor esta funcionando en el puerto ${port}`);
 });
+
