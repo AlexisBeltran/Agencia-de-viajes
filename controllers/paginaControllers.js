@@ -5,14 +5,12 @@ const paginaInicio = async (req, res) => {
     let PromiseDB = []
     PromiseDB = [...PromiseDB, Testimoniales.findAll({limit: 3})];
     PromiseDB = [...PromiseDB, Viaje.findAll({limit: 3})];
-
     const Testimonial = await Promise.all(PromiseDB);
-    
     res.render('inicio', {
         pagina: 'Inicio',
         clase:"home", 
         Testimonial : Testimonial[0],
-        viajes: Testimonial[1]
+        viajes: Testimonial[1],
     });
 }
 
@@ -46,7 +44,6 @@ const paginaDetalleViaje = async(req, res) => {
     const {viaje} = req.params;
     try{
         const Resultado = await Viaje.findOne({where : {slug: viaje}});
-        console.log(Resultado);
         res.render('viaje',{
             pagina: 'Información Viaje',
             Resultado

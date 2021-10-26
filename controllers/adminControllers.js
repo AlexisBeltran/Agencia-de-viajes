@@ -5,11 +5,12 @@ import {FormatoFecha, Autenticar} from './helpers/functions.js';
 
 const paginaAdmin = async (req, res) => {
     const Viajes = await Viaje.findAll();
+    let Prueba = req.session.admin;
     res.render('admin', {
         pagina: 'Información',
-        Viajes,
-        Login: true
-    })
+        Viajes, 
+        Prueba
+    });
 }
 
 const paginaLogin = async (req, res) => {
@@ -24,7 +25,7 @@ const paginaRegistro = (req, res) => {
     });
     
 }
-const guardarLogin = async(req, res) => {
+const guardarLogin = async(req, res, next) => {
     let Errores = [];
     const {correo, password} = req.body;
     if(correo.trim() === ''){
@@ -48,7 +49,7 @@ const guardarLogin = async(req, res) => {
                 const Auten = Autenticar(req.session, correo);
                 if(Auten){
                     res.redirect('/admin');
-                    return;
+                    return next();
                 }
                 res.sendStatus(401);
             }

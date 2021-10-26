@@ -1,8 +1,18 @@
 import express from 'express';
 import router from './router/index.js';
 import db from './config/db.js';
+import session from 'express-session';
+import cookieParser from 'cookie-parser';
 
 const app = express();
+
+router.use(cookieParser());
+router.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+}));
+
 
 db.authenticate()
     .then(() => console.log('Base de datos conectada exitosamente'))
@@ -22,6 +32,16 @@ app.use((req, res, next) => {
     res.locals.AñoActual = Anio.getFullYear();
     return next();
 });
+
+app.use((req, res, next) => {
+    if(req.session.admin === undefined){
+        res.locals.admin = false;
+    }else{
+        res.locals.admin = true;
+    }
+    return next();
+});
+
 //Agregar body parser para leer los datos del formulario
 app.use(express.urlencoded({extended: true}));
 

@@ -1,4 +1,7 @@
-
+if(!Prueba)
+    #{Prueba = false}
+else    
+    #{Prueba = true}
 header 
     .navegacion
         .container     
@@ -11,8 +14,8 @@ header
                         a.nav-link(href="/nosotros") Nosotros
                         a.nav-link(href="/viajes") Viajes
                         a.nav-link(href="/testimoniales") Testimoniales
-                        if(Login)
+                        if(Prueba)
                             a.nav-link(href="/logout") Cerrar Sesión 
                         else 
-                            a.nav-link(href="/login") Iniciar Sesión
+                             a.nav-link(href="/login") Iniciar Sesión
                         
