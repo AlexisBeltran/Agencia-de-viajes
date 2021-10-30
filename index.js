@@ -32,22 +32,10 @@ app.use((req, res, next) => {
     res.locals.AñoActual = Anio.getFullYear();
     return next();
 });
-
-app.use((req, res, next) => {
-    if(req.session.admin === undefined){
-        res.locals.admin = false;
-    }else{
-        res.locals.admin = true;
-    }
-    return next();
-});
-
 //Agregar body parser para leer los datos del formulario
 app.use(express.urlencoded({extended: true}));
-
 //Add router
 app.use(express.static('public'));
-
 app.use('/', router);
 
 

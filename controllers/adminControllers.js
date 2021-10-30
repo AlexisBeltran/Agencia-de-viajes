@@ -2,14 +2,12 @@ import {Viaje} from '../models/Viaje.js'
 import {usuario} from '../models/Usuario.js';
 import {compare, encrypt} from './helpers/handleBcrypt.js';
 import {FormatoFecha, Autenticar} from './helpers/functions.js';
-
+let Admin;
 const paginaAdmin = async (req, res) => {
     const Viajes = await Viaje.findAll();
-    let Prueba = req.session.admin;
     res.render('admin', {
         pagina: 'Información',
-        Viajes, 
-        Prueba
+        Viajes  
     });
 }
 
@@ -48,10 +46,9 @@ const guardarLogin = async(req, res, next) => {
                 req.session.admin = true;
                 const Auten = Autenticar(req.session, correo);
                 if(Auten){
-                    res.redirect('/admin');
-                    return next();
+                    returnSession(req.session.admin);
+                    res.redirect('/admin'); 
                 }
-                res.sendStatus(401);
             }
             else{
                 Errores = [...Errores, {mensaje: 'Contraseña Incorrecta'}];
@@ -67,7 +64,6 @@ const guardarLogin = async(req, res, next) => {
         });
     }
 }
-
 const guardarRegistro = async(req, res) => {
     let Errores = [];
     const {nombre, correo, password, confircontra} = req.body;
@@ -111,13 +107,26 @@ const guardarRegistro = async(req, res) => {
 }
 const logout = async (req, res) => {
     req.session.destroy();
+    Admin = false;
     res.redirect('/');
 }
+
+function returnSession(admin){
+    Admin = admin;
+}
+
+function getSession(){
+    return Admin;
+    
+}
+
+
 export{
     paginaAdmin,
     paginaLogin,
     paginaRegistro,
     guardarLogin,
     guardarRegistro, 
-    logout
+    logout, 
+    getSession
 }
