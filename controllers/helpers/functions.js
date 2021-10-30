@@ -11,6 +11,14 @@ function FormatoFecha(fecha){
     return `${yyyy}-${mm}-${dd}`;
 }
 
+function Autenticar(sesion, correo){
+    if(sesion && sesion.correo === correo && sesion.admin){
+        return true;
+    }else{
+        return false;
+    }
+}
 export{
-    FormatoFecha
+    FormatoFecha, 
+    Autenticar
 }

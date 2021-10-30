@@ -49,7 +49,6 @@ export const paginaDetalleContacto = async (req, res) => {
                 console.log(error);
             }else{
                 res.redirect('/contacto');
-                console.log('Email enviado: ' + info.response);
             }
         });
     }

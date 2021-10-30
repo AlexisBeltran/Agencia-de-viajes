@@ -1,15 +1,14 @@
 import {Viaje} from '../models/Viaje.js'
 import {usuario} from '../models/Usuario.js';
 import {compare, encrypt} from './helpers/handleBcrypt.js';
-import {FormatoFecha} from './helpers/functions.js';
-
+import {FormatoFecha, Autenticar} from './helpers/functions.js';
+let Admin;
 const paginaAdmin = async (req, res) => {
     const Viajes = await Viaje.findAll();
     res.render('admin', {
         pagina: 'Información',
-        Viajes,
-        Login: true
-    })
+        Viajes  
+    });
 }
 
 const paginaLogin = async (req, res) => {
@@ -24,7 +23,7 @@ const paginaRegistro = (req, res) => {
     });
     
 }
-const guardarLogin = async(req, res) => {
+const guardarLogin = async(req, res, next) => {
     let Errores = [];
     const {correo, password} = req.body;
     if(correo.trim() === ''){
@@ -35,13 +34,28 @@ const guardarLogin = async(req, res) => {
     }
 
     //Validation users
-    const User = await usuario.findOne({where: {correo_usuario: correo}});
-    const CheckPassword = await compare(password, User.contrasenia_usuario);
-    if(CheckPassword){  
-        res.redirect('admin');
-    }
-    else{
-        Errores = [...Errores, {mensaje: 'Correo y/o contraseña no coinciden'}];
+    try{
+        const User = await usuario.findOne({where: {correo_usuario: correo}});
+        if(!User){
+            Errores = [...Errores, {mensaje: 'Correo no registrado'}];
+        }else{
+            const CheckPassword = await compare(password, User.contrasenia_usuario);
+            if(CheckPassword){  
+                //Autenticar el usuario
+                req.session.correo = correo;
+                req.session.admin = true;
+                const Auten = Autenticar(req.session, correo);
+                if(Auten){
+                    returnSession(req.session.admin);
+                    res.redirect('/admin'); 
+                }
+            }
+            else{
+                Errores = [...Errores, {mensaje: 'Contraseña Incorrecta'}];
+            }
+        }
+    }catch(Error){
+        console.log(Error);
     }
 
     if(Errores.length > 0){
@@ -50,7 +64,6 @@ const guardarLogin = async(req, res) => {
         });
     }
 }
-
 const guardarRegistro = async(req, res) => {
     let Errores = [];
     const {nombre, correo, password, confircontra} = req.body;
@@ -92,11 +105,28 @@ const guardarRegistro = async(req, res) => {
         }
     }
 }
+const logout = async (req, res) => {
+    req.session.destroy();
+    Admin = false;
+    res.redirect('/');
+}
+
+function returnSession(admin){
+    Admin = admin;
+}
+
+function getSession(){
+    return Admin;
+    
+}
+
 
 export{
     paginaAdmin,
     paginaLogin,
     paginaRegistro,
     guardarLogin,
-    guardarRegistro
+    guardarRegistro, 
+    logout, 
+    getSession
 }
