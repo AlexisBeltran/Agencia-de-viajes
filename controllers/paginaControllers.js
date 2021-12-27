@@ -12,6 +12,7 @@ const paginaInicio = async (req, res) => {
         Testimonial : Testimonial[0],
         viajes: Testimonial[1],
     });
+    console.log(req.cookies);
 }
 
 const paginaNosotros = (req, res) => {

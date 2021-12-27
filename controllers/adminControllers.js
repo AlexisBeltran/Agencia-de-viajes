@@ -3,6 +3,7 @@ import {usuario} from '../models/Usuario.js';
 import {compare, encrypt} from './helpers/handleBcrypt.js';
 import {FormatoFecha, Autenticar} from './helpers/functions.js';
 let Admin;
+
 const paginaAdmin = async (req, res) => {
     const Viajes = await Viaje.findAll();
     res.render('admin', {
@@ -107,6 +108,8 @@ const guardarRegistro = async(req, res) => {
 }
 const logout = async (req, res) => {
     req.session.destroy();
+    res.clearCookie(req.cookies, {path: '/'});
+    console.log(req.cookies);
     Admin = false;
     res.redirect('/');
 }

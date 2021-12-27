@@ -13,7 +13,6 @@ router.use(session({
     saveUninitialized: true
 }));
 
-
 db.authenticate()
     .then(() => console.log('Base de datos conectada exitosamente'))
     .catch(error => console.log(error));
