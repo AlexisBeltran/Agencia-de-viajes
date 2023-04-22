@@ -43,6 +43,6 @@ app.use('/', router);
 
 
 app.listen(port, host, ()=>{
-    console.log(`El servidor esta funcionando en el puerto ${port}`);
+    console.log(`El servidor esta funcionando en el puerto ${port} y el host: ${host}`);
 });
 
