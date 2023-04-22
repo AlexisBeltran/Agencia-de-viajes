@@ -21,6 +21,10 @@ db.authenticate()
 const host = process.env.HOST || '0.0.0.0';
 const port = process.env.PORT || 4000;
 
+
+console.log("HOST: ", host);
+console.log("PORT: ", port);
+
 //Enable Pug
 app.set('view engine', 'pug');
 
