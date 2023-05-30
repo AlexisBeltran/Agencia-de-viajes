@@ -2,16 +2,11 @@ import Sequelize from "sequelize";
 import dotenv from 'dotenv';
 
 dotenv.config({path: '.env'});
-const {DATABASE, USERNAME, PASSWORD, HOST, PORT} = process.env;
-console.log("DATABASE: ", DATABASE);
-console.log("USER NAME: ", USERNAME);
-console.log("PASSWORD: ", PASSWORD);
-console.log("HOST: ", HOST);
-console.log("PORT: ", PORT);
+const {BD_NOMBRE, BD_USER, BD_PASS, BD_HOST, BD_PORT} = process.env;
 
-const db = new Sequelize(DATABASE, USERNAME, PASSWORD,{
-    host: HOST,
-    port: PORT,
+const db = new Sequelize(BD_NOMBRE, BD_USER, BD_PASS,{
+    host: BD_HOST,
+    port: BD_PORT,
     dialect: 'mysql',
     define: {
         timestamps: false
