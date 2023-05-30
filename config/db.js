@@ -3,6 +3,11 @@ import dotenv from 'dotenv';
 
 dotenv.config({path: '.env'});
 const {DATABASE, USERNAME, PASSWORD, HOST, PORT} = process.env;
+console.log("DATABASE: ", DATABASE);
+console.log("USER NAME: ", USERNAME);
+console.log("PASSWORD: ", PASSWORD);
+console.log("HOST: ", HOST);
+console.log("PORT: ", PORT);
 
 const db = new Sequelize(DATABASE, USERNAME, PASSWORD,{
     host: HOST,
