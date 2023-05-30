@@ -15,7 +15,7 @@ router.use(session({
 
 db.authenticate()
     .then(() => console.log('Base de datos conectada exitosamente'))
-    .catch(error => console.log(error));
+    .catch(error => console.log("ERROR: ", error));
 
 //def port and host
 const host = process.env.HOST || '0.0.0.0';
